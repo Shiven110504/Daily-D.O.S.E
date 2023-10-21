@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { mongoClient } from "../config";
 import { ObjectId } from "mongodb";
 
-export function authenticateUser () { //get reference_id from Max
+export function authenticateUser (user_id) { //get reference_id from Max
 	auth_resp = terra.generate_authentication_url(
 		reference_id="",
 		resource="GARMIN",
@@ -14,8 +14,8 @@ export function authenticateUser () { //get reference_id from Max
 	  return auth_resp;
 	}
 
-export function getHealthData() {
-	const USER_ID = "" //get User-Id from 
+export function getHealthData(user_id) {
+	const USER_ID = user_id //get User-Id from 
 
 // Get the nutrition data from start date to current time
 	terra
