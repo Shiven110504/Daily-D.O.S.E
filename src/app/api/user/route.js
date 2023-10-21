@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mongoClient } from "../config";
-import { ObjectId } from "mongodb";
 
 export async function POST(request) {
     const data = await request.json()
+    if (!data.id) {
+        return NextResponse.json({ data: {
+            
+        } }, { status: 400}); 
+    }
     const db = await mongoClient.connect();
-    const userCollect = await db.db('user_data').collection('users').insertOne(data);
+    const userCollect = await db.db('user_data').collection('users').insertOne({
+        ...data
+    });
     return NextResponse.json({ data: {
         success: userCollect.acknowledged
     } }, { status: 200}); 
@@ -24,7 +30,7 @@ export async function GET(request) {
     const db = await mongoClient.connect();
     if (userId) {
         const userCollect = await db.db('user_data').collection('users').findOne({
-            _id: new ObjectId(userId)
+            id: userId
         });
         if (userCollect) {
             responseData.data = userCollect;

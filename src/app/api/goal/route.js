@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mongoClient } from "../config";
-import { ObjectId } from "mongodb";
 
 export async function POST(request) {
     const data = await request.json();
@@ -11,7 +10,7 @@ export async function POST(request) {
     const goalAdjustments = {};
     goalAdjustments[category] = goal;
     const goalCollect = await db.db('user_data').collection('goals').findOneAndUpdate({
-        _id: new ObjectId(userId)
+        id: userId
     }, {
             $set: goalAdjustments
     });
@@ -33,7 +32,7 @@ export async function GET(request) {
     const db = await mongoClient.connect();
     if (userId) {
         const goalCollect = await db.db('user_data').collection('goals').findOne({
-            _id: new ObjectId(userId)
+            id: userId
         });
         if (goalCollect) {
             responseData.data = goalCollect;
