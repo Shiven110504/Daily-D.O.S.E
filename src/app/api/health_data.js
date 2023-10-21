@@ -1,9 +1,9 @@
 import { terra } from "./config";
-import { NextRequest, NextResponse } from "next/server";
 import { mongoClient } from "../config";
-import { ObjectId } from "mongodb";
+
 
 export function authenticateUser (user_id) { //get reference_id from Max
+
 	auth_resp = terra.generate_authentication_url(
 		reference_id="",
 		resource="GARMIN",
@@ -14,12 +14,18 @@ export function authenticateUser (user_id) { //get reference_id from Max
 	  return auth_resp;
 	}
 
-export function getHealthData(user_id) {
-	const USER_ID = user_id //get User-Id from 
+
+export function getHealthData(userId) {
+	const db = mongoClient.connect();
+	const doc = await db.db('user_data').collection('users').findOne({_id: userId}); //get User-Id from 
+	const USER_ID = doc._id;
+	if (!USER_ID) {
+		return;
+	}
 
 // Get the nutrition data from start date to current time
 	terra
     .getNutrition({ userId: USER_ID, startDate: new Date("2023-03-29"), endDate: new Date(), toWebhook: false })
-    .then((p) => console.log(p))
+    .then((p) => db.db("user_data").collection("health_history").insertOne(p))
     .catch((e) => console.log(e.status, e.message));
 }
