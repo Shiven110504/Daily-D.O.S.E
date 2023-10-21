@@ -10,13 +10,13 @@ export async function POST(request) {
     const db = await mongoClient.connect();
     const goalAdjustments = {};
     goalAdjustments[category] = goal;
-    const userCollect = await db.db('user_data').collection('goals').findOneAndUpdate({
+    const goalCollect = await db.db('user_data').collection('goals').findOneAndUpdate({
         _id: new ObjectId(userId)
     }, {
             $set: goalAdjustments
     });
     return NextResponse.json({ data: {
-        success: userCollect.acknowledged
+        success: goalCollect.acknowledged
     } }, { status: 200}); 
 }
 
@@ -32,11 +32,11 @@ export async function GET(request) {
     }
     const db = await mongoClient.connect();
     if (userId) {
-        const userCollect = await db.db('user_data').collection('users').findOne({
+        const goalCollect = await db.db('user_data').collection('goals').findOne({
             _id: new ObjectId(userId)
         });
-        if (userCollect) {
-            responseData.data = userCollect;
+        if (goalCollect) {
+            responseData.data = goalCollect;
         }
     } else {
         status = 400;
