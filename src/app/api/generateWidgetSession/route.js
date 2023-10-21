@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { terra } from "../config";
 
 
-export async function GET(request: NextRequest) {
+export async function GET(request) {
     const resp = await terra.generateWidgetSession({
         referenceID: "HelloHarvard",
         language: "en",

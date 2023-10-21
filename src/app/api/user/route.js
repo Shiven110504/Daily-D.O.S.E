@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { mongoClient } from "../config";
 import { ObjectId } from "mongodb";
 
-export async function POST(request: NextRequest) {
+export async function POST(request) {
     const data = await request.json()
     const db = await mongoClient.connect();
     const userCollect = await db.db('user_data').collection('users').insertOne(data);
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     } }, { status: 200}); 
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request) {
     let status = 404;
     let userId;
     const url = request.url;
