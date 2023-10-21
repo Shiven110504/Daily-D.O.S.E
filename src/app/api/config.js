@@ -1,7 +1,7 @@
-const { default: Terra } = require("terra-api");
+import Terra from "terra-api";
 const { MongoClient } = require("mongodb");
+const uri =
 
-export const uri =
 `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PWD}@${process.env.MONGODB_URL}?retryWrites=true&w=majority`;
 
 // The MongoClient is the object that references the connection to our
