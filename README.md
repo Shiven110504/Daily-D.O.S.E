@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Inspiration
+Our journey began at the intersection of frustration and admiration. On one hand, we experienced the efficiency of period tracking apps, admiring how seamless and helpful tracking could be. Conversely, our encounters with several health coach apps left much to be desired. Instead of feeling motivated, we found ourselves overwhelmed and demotivated by their complex interfaces and lackluster guidance. This stark contrast was our eureka moment. We asked ourselves, "Why can't there be a user-friendly, motivating health taskmaster?" And thus, the concept of Daily DOSE was born, fueled by a desire to bridge this gap in the digital health space.
 
-## Getting Started
+What it does
+Daily Dose understands that the journey to optimal health is about consistent, incremental steps. Tailored to your unique health profile, it suggests achievable goals, nudging you towards slightly more challenging targets as you progress. Each task you complete fuels your journey, motivating you with noticeable but manageable enhancements. This method ensures you're not overwhelmed but rather enjoy the satisfaction and balance derived from a progressive approach to health.
 
-First, run the development server:
+How we built it
+The building phase was as thrilling as it was challenging. Our primary tools were Figma, which laid the foundation for our app's design, and its AI integration, which breathed life into our interfaces. Harnessing the power of Terra API, we were able to implement additional functionalities that enriched the app's ecosystem. The development wasn't just about coding but also about creating a user experience that mirrored the ease and simplicity we admired in period tracking apps, avoiding the pitfalls that we had found discouraging in other health applications.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Challenges we ran into
+Imagine a group of strangers, each with unique personalities and work habits, thrown together into a hackathon. That was us. The initial hours were a whirlwind as we struggled to sync our working styles and communicate effectively within the high-pressure environment. Our 36-hour hackathon experience was intense, to put it mildly. Beyond technical and creative challenges, one of our most significant hurdles was emotional management. Learning to stay level-headed, patient, and open-minded when exhaustion was at its peak and opinions clashed was a trial by fire in emotional intelligence. However, as time progressed, we learned more about each other and how to assign tasks that suited each member's strengths, streamlining the process. This efficiency was our turning point, leading us from constant friction to a well-oiled machine, producing something incredible.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Accomplishments that we're proud of
+The culmination of our journey was Daily DOSE, a project born of collective brainpower, determination, and, quite frankly, a dose of frustration with existing solutions. We navigated through unfamiliar territories of technology, emotional intelligence, and team dynamics to create an application we all believed in. This experience was a testament to what can be achieved when diverse minds collaborate, using their unique strengths to overcome hurdles. Our takeaway? Great things happen outside comfort zones, and incredible creations are often fueled by personal frustration with the status quo.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+What we learned
+Embarking on the Daily DOSE project was nothing short of a rollercoaster learning experience. From the initial brainstorming to the final execution, every step was an enlightening process. We found ourselves debugging at all hours, often humorously consulting our "rubber ducks" as a part of the process—coding humor that lightened those intense moments. This project taught us more than just technical skills; it was a deep dive into human psychology, teamwork, and resilience. We learned to balance our emotions during times of exhaustion, an essential soft skill that went hand in hand with the hard skills acquired from relentless coding and designing sessions.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+What's next for Daily D.O.S.E
+Building in-app community support where users can share progress, motivate each other, and exchange tips, creating a supportive digital health community. Localizing content and marketing strategies to launch the app in new geographical markets, expanding the user base, and understanding regional health and wellness trends and preferences.
