@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import goal_types from "./goal-types.json" assert { type: 'json' };
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+
 // prevtask AND finalgoal MUST be real numbers!
 // duration is time elapsed in seconds.
 function uploadNextTask(prevtask, prevchange, finalgoal, duration, outcome ) {
@@ -70,6 +77,7 @@ export async function POST(request) {
 
     const db = await mongoClient.connect(); 
     let prevValue;
+    console.log('A')
     const prevGoal = await db.db('health_history').collection('goal_history').findOne({
         id: data.id,
         metric: data.metric
@@ -83,6 +91,8 @@ export async function POST(request) {
     } else {
         prevValue = prevGoal.value
     }
+    console.log('B')
+
     const curGoals = await db.db('user_data').collection('goals').findOne({
         id: data.id});
     let prevChange = 0;
@@ -104,13 +114,22 @@ export async function POST(request) {
         value: newGoal,
         metric: data.metric
     });
+    console.log('C')
+
     const updatedCurGoal = await db.db('user_data').collection('goals').updateOne({
         id: data.id
     }, {
         $set: {"goals.stgoal": newGoal}
     })
+    console.log('D')
+
     const fnalMsg = `Please give me a simple instruction that encourages users to meet the following metric in an actionable format: ${newEntry} @ ${data.metric}`
-    const chatGpt = `Try to achieve ${newEntry} @ ${data.metric} today.`
+    const chatGpt = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [fnalMsg],
+        temperature: 0.8,
+        max_tokens: 256,
+      });
     return NextResponse.json({ data: {message : chatGpt} }, { status: 200}); 
 }
 
