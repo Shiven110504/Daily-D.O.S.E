@@ -15,7 +15,7 @@ export function authenticateUser (user_id) { //get reference_id from Max
 	}
 
 
-export function getHealthData(userId) {
+export async function getHealthData(userId) {
 	const db = mongoClient.connect();
 	const doc = await db.db('user_data').collection('users').findOne({_id: userId}); //get User-Id from 
 	const USER_ID = doc._id;

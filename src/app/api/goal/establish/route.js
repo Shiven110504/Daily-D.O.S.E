@@ -1,6 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 
-function uploadNextTask(prevtask, finalgoal, duration, outcome ) {
+// prevtask AND finalgoal MUST be real numbers!
+// duration is time elapsed in seconds.
+function uploadNextTask(prevtask, prevchange, finalgoal, duration, outcome ) {
+    let coefficient;
+    let dx = prevchange;
+    switch (outcome) {
+        case "unfinished":
+            coefficient = [0.5, 0.9];
+            break;
+        case "negative":
+            coefficient = [0.25, 0.5];
+            break;
+        case "positive":
+            coefficient = [1, 1.5];
+            break;
+        default:
+            coefficient = [0, 0];
+        }
+    const proportion = duration / (24 * 60 * 60);
+    const proposition = prevtask + (dx * (coefficient[0] + ((coefficient[1] - coefficient[0]) * (1 - proportion))));
+    const metGoal = (prevtask - finalgoal > 0 && proposition < finalgoal) || (prevtask - finalgoal < 0 && proposition > finalgoal)
+    return metGoal ? finalgoal : proposition
 
 }
 
