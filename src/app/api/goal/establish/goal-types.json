@@ -1,0 +1,30 @@
+{
+    "hydration": 
+        {
+            "liters_per_day": ["summary.water_ml"]
+        }
+    ,
+    "nutrition": {
+        "protein_intake": ["summary.macros.protein_g"],
+
+        "calorie_intake": ["summary.macros.calories"],
+        "fiber_intake": ["summary.macros.fiber_g"],
+        "sugar_intake": ["summary.macros.sugar_g"]
+        
+        
+    },
+    "sleep": {
+        "sleep_time": ["sleep_durations_data.asleep.duration_REM_sleep_state_seconds",
+    "sleep_durations_data.asleep.duration_asleep_state_seconds", "sleep_durations_data.asleep.duration_deep_sleep_state_seconds",
+"duration_light_sleep_state_seconds"]
+    },
+    "fitness": 
+        {
+            "exercise_time": [
+                "MET_data.num_high_intensity_minutes",
+                "MET_data.num_moderate_intensity_minutes",
+                "MET_data.num_low_intensity_minutes"
+            ]
+        }
+    
+}
