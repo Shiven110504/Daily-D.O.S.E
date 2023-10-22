@@ -3,17 +3,20 @@ import { mongoClient } from "../config";
 
 export async function POST(request) {
     const data = await request.json();
-    const userId = data.id;
+    const userId = String(data.id);
     const category = data.category;
     const goal = data.goal;
     const db = await mongoClient.connect();
     const goalAdjustments = {};
-    goalAdjustments[category] = goal;
-    const goalCollect = await db.db('user_data').collection('goals').findOneAndUpdate({
+    goalAdjustments[`goals.${category}`] = goal;
+    console.log(goalAdjustments);
+    console.log(goal);
+    const goalCollect = await db.db('user_data').collection('goals').updateOne({
         id: userId
     }, {
             $set: goalAdjustments
     });
+    console.log(goalCollect);
     return NextResponse.json({ data: {
         success: goalCollect.acknowledged
     } }, { status: 200}); 
@@ -27,7 +30,7 @@ export async function GET(request) {
     const splitUrl = url.split('?');
     if (splitUrl.length > 0) {
         const searchParams = new URLSearchParams(splitUrl[1]);
-        userId = searchParams.get('id')
+        userId = String(searchParams.get('id'))
     }
     const db = await mongoClient.connect();
     if (userId) {

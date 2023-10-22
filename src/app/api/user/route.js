@@ -12,6 +12,11 @@ export async function POST(request) {
     const userCollect = await db.db('user_data').collection('users').insertOne({
         ...data
     });
+    const goalUserCreate = await db.db('user_data').collection('goals').insertOne({
+        goals: {},
+        ...data
+    });
+    
     return NextResponse.json({ data: {
         success: userCollect.acknowledged
     } }, { status: 200}); 
@@ -25,15 +30,18 @@ export async function GET(request) {
     const splitUrl = url.split('?');
     if (splitUrl.length > 0) {
         const searchParams = new URLSearchParams(splitUrl[1]);
-        userId = searchParams.get('id')
+        userId = String(searchParams.get('id'));
     }
+
     const db = await mongoClient.connect();
     if (userId) {
         const userCollect = await db.db('user_data').collection('users').findOne({
             id: userId
         });
+        console.log(userCollect)
         if (userCollect) {
             responseData.data = userCollect;
+            status = 200;
         }
     } else {
         status = 400;
