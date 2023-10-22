@@ -49,10 +49,8 @@ export const StartPage = () => {
                 </div>
                 <div className="overlap">
                     <RoundButtonTrue className="design-component-instance-node" text="Sign Up" />
-                    <RoundButtonTrue className="design-component-instance-node" text="Sign Up" />
                 </div>
                 <div className="overlap-2">
-                    <RoundButtonFalse className="design-component-instance-node" text="Log in" />
                     <RoundButtonFalse className="design-component-instance-node" text="Log in" />
                 </div>
             </div>

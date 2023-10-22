@@ -1,7 +1,8 @@
 import React from "react";
-import { Arcticons } from "..";
-import { ArcticonsSuperSimpleSleepTimer } from "..arcticons_super-simple-sleep-timer.svg/";
-import { PhBowlFoodThin } from "..ph_bowl-food-thin.svg";
+import fit from '../../../assets/fit.png'; // Adjust the path as necessary
+import food from '../../../assets/food.png'; // Adjust the path as necessary
+import sleep from '../../../assets/sleep.png'; // Adjust the path as necessary
+import water from '../../../assets/water.png'; // Adjust the path as necessary
 import "src/app/frontend/styles.css";
 
 export const GoalPage = () => {
@@ -10,21 +11,29 @@ export const GoalPage = () => {
             <div className="div">
                 <div className="overlap-group">
                     <div className="chip">
-                        <Arcticons className="arcticons-waterdrinkreminder" />
+                        <div>
+                        <img src={water} alt="description" />
+                        </div>
                         <div className="title">Hydration</div>
                     </div>
                     <div className="text-wrapper">Choose your goals</div>
                 </div>
                 <div className="chip-2">
-                    <PhBowlFoodThin className="ph-bowl-food-thin-instance" />
+                <div>
+                        <img src={food} alt="description" />
+                        </div>
                     <div className="title-2">Nutrition</div>
                 </div>
                 <div className="chip-3">
-                    <ArcticonsSuperSimpleSleepTimer className="arcticons-super" />
+                <div>
+                    <img src={sleep} alt="description" />
+                        </div>
                     <div className="title">Sleep</div>
                 </div>
                 <div className="chip-4">
-                    <img className="vector" alt="Vector" src="vector.svg" />
+                <div>
+                <img src={fit} alt="description" />
+                        </div>
                     <div className="title">Fitness</div>
                 </div>
                 <div className="primary">

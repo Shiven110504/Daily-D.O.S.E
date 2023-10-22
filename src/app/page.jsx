@@ -1,6 +1,7 @@
 'use client'
 import { StartPage } from './frontend/Pages/start'
 import {GoalPage} from './frontend/Pages/goal'
+import {DailyDosePage} from './frontend/Pages/main'
 import { ConnectToTerraButton } from '@tryterra/terra-ui'
 
 import axios from 'axios'
@@ -10,6 +11,7 @@ import axios from 'axios'
     <div>
       <StartPage />
       <GoalPage />
+      <DailyDosePage />
     </div>
     
   );
