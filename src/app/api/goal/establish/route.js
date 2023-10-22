@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
+import goal_types from "./goal-types.json" assert { type: 'json' };
 // prevtask AND finalgoal MUST be real numbers!
 // duration is time elapsed in seconds.
 function uploadNextTask(prevtask, prevchange, finalgoal, duration, outcome ) {
@@ -25,18 +25,93 @@ function uploadNextTask(prevtask, prevchange, finalgoal, duration, outcome ) {
 
 }
 
+function refEmbedField(doc, embedField) {
+    const directory = embedField.split('.');
+    let r = doc
+    for (const i of directory) {
+        if (r === null) {
+            return 0;
+        }
+        r = r[i];
+    }
+    return r ?? 0;
+}
+
 export async function POST(request) {
-    // receive data from Terra via webhook.
+    // insert datapoint. tell me what it influences.
     const data = await request.json();
-    if (!data.id) {
+    if (!data.id || !data.type) {
+        console.log('missing field');
         return NextResponse.json({  }, { status: 400})
     }
-    const db = await mongoClient.connect();
-    const prev = await db.db('health_history').collection('goal_history').findOne({
-        id: data.id
-    }, {sort:{$natural:-1}});
+    const possible_goals = goal_types[data.type]
+    if (!possible_goals) {
+        console.log('type is not fitness, hydration, or whatever.');
+        
+        return NextResponse.json({  }, { status: 400}) 
+    }
+    if (!data.metric || !possible_goals[data.metric]) {
+        console.log('we didn\'t cover that metric.');
+        return NextResponse.json({  }, { status: 400}); 
+    }
+    if (!['unfinished', 'positive', 'negative'].includes(data.outcome)) {
+        console.log('what kind of outcome are you giving me?');
+        return NextResponse.json({  }, { status: 400}); 
+    }
 
-    return NextResponse.json({ data: data }, { status: 200}); 
+    const important_metrics = possible_goals[data.metric];
+    const getSum = (doc) => important_metrics.map((metric) => refEmbedField(doc, metric)).reduce((a, b) => a + b ,0);
+    const translate = {
+        "fitness": "activity",
+        "hydration": "nutrition",
+        "nutrition": "nutrition",
+        "sleep": "sleep"
+    };
+
+    const db = await mongoClient.connect(); 
+    let prevValue;
+    const prevGoal = await db.db('health_history').collection('goal_history').findOne({
+        id: data.id,
+        metric: data.metric
+    }, {sort:{$natural:-1}}); // the last goal related to this metric.
+    if (!prevGoal) {
+        const prevEntry = await db.db('health_history').collection('health_history').findOne({
+            id: data.id,
+            type: translate[data.type] ?? 'pickles'
+        }, {sort:{$natural:-1}}); // no goal, calculate goal based on last datpoint.
+        prevValue = getSum(prevEntry)
+    } else {
+        prevValue = prevGoal.value
+    }
+    const curGoals = await db.db('user_data').collection('goals').findOne({
+        id: data.id});
+    let prevChange = 0;
+    // stgoal looks like something like the following:
+    // {
+        // goalmetric1: 3,
+        // goalmetric2: 4,
+        // ...
+    // }
+    if (curGoals && curGoals.stgoal && curGoals.stgoal[data.metric]) {
+        prevChange = curGoals.stgoal[data.metric] - prevValue;
+
+    } 
+    
+    
+    const newGoal = uploadNextTask(prevValue, prevChange, curGoals.lt[data.metric], 12 * 60 * 60, data.outcome);
+    const newEntry = await db.db('health_history').collection('goal_history').insertOne({
+        id: data.id,
+        value: newGoal,
+        metric: data.metric
+    });
+    const updatedCurGoal = await db.db('user_data').collection('goals').updateOne({
+        id: data.id
+    }, {
+        $set: {"goals.stgoal": newGoal}
+    })
+    const fnalMsg = `Please give me a simple instruction that encourages users to meet the following metric in an actionable format: ${newEntry} @ ${data.metric}`
+    const chatGpt = `Try to achieve ${newEntry} @ ${data.metric} today.`
+    return NextResponse.json({ data: {message : chatGpt} }, { status: 200}); 
 }
 
 export async function GET(request) {
